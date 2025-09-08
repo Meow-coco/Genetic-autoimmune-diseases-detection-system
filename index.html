@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genetic Autoimmune Detection System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #89f7fe, #66a6ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      width: 350px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .card h1 {
+      font-size: 1.6rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .risk {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .low { background: #28a745; }      /* Green */
+    .medium { background: #ffc107; }   /* Yellow */
+    .high { background: #dc3545; }     /* Red */
+
+    .precautions {
+      font-size: 1rem;
+      margin-top: 10px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="disease">Loading...</h1>
+    <div id="riskLevel" class="risk">Risk Level</div>
+    <p id="precautions" class="precautions">Fetching precautions...</p>
+    <footer>Genetic Autoimmune Detection System</footer>
+  </div>
+
+  <script>
+    // Data for all diseases and risk levels
+    const data = {
+      "diabetes": {
+        "low": "Maintain healthy diet, exercise regularly, and monitor sugar levels.",
+        "medium": "Control diet strictly, regular exercise, and checkups recommended.",
+        "high": "Consult a doctor, strict diet, medication, and lifestyle changes needed."
+      },
+      "arthritis": {
+        "low": "Stay active, maintain good posture, and avoid joint injuries.",
+        "medium": "Physiotherapy and regular checkups recommended.",
+        "high": "Doctor consultation required, medication or therapy may be needed."
+      },
+      "celiac": {
+        "low": "Avoid gluten when possible, keep a balanced diet.",
+        "medium": "Strict gluten-free diet strongly recommended.",
+        "high": "Immediate medical consultation and lifelong gluten-free diet needed."
+      },
+      "encephalitis": {
+        "low": "Maintain hygiene, follow vaccinations, stay healthy.",
+        "medium": "Seek medical advice, monitor symptoms closely.",
+        "high": "Immediate hospitalization and medical attention needed."
+      },
+      "healthy": {
+        "none": "No disease detected. Maintain a balanced diet and exercise regularly!"
+      }
+    };
+
+    // Extract parameters from URL
+    const params = new URLSearchParams(window.location.search);
+    const disease = params.get("disease") || "healthy";
+    const risk = params.get("risk") || "none";
+
+    // Update webpage dynamically
+    document.getElementById("disease").innerText = 
+      disease === "healthy" ? "No Disease Detected" : disease.toUpperCase() + " Detected";
+
+    const riskDiv = document.getElementById("riskLevel");
+    if(risk === "low") { riskDiv.className = "risk low"; riskDiv.innerText = "Low Risk"; }
+    else if(risk === "medium") { riskDiv.className = "risk medium"; riskDiv.innerText = "Medium Risk"; }
+    else if(risk === "high") { riskDiv.className = "risk high"; riskDiv.innerText = "High Risk"; }
+    else { riskDiv.style.display = "none"; }
+
+    document.getElementById("precautions").innerText = data[disease][risk] || "No precautions available.";
+  </script>
+</body>
+</html>
